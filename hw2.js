@@ -1,244 +1,208 @@
-window.addEventListener('DOMContentLoaded', function () {
-    var dob = document.getElementById('dob');
-    if (dob) {
-        var today = new Date();
-        var max = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        var min = new Date(today.getFullYear() - 120, today.getMonth(), today.getDate());
-        function f(d) {
-            var m = (d.getMonth() + 1).toString().padStart(2, '0');
-            var day = d.getDate().toString().padStart(2, '0');
-            return d.getFullYear() + '-' + m + '-' + day;
-        }
-        dob.setAttribute('max', f(max));
-        dob.setAttribute('min', f(min));
-    }
-});
-
-
-function setErr(id, msg) {
-    var el = document.getElementById(id);
-    if (el) el.innerHTML = msg || "";
-}
-
 
 function validateFname() {
-    var el = document.getElementById("fname");
-    var ok = /^[a-zA-Z']{1,30}$/.test(el.value);
-    setErr("fname-error", ok ? "" : "First name must be letters/apostrophes only (1–30).");
-    return ok;
+  var el = document.getElementById("fname");
+  var ok = /^[a-zA-Z']{1,30}$/.test(el.value);
+  document.getElementById("fname-error").innerHTML = ok ? "" : "First name: letters/apostrophes only (1–30)";
+  return ok;
 }
-
-
 function validateMini() {
-    var el = document.getElementById("mini");
-    var ok = el.value === "" || /^[a-zA-Z']{1}$/.test(el.value);
-    setErr("mini-error", ok ? "" : "Middle initial must be one letter or blank.");
-    return ok;
+  var el = document.getElementById("mini");
+  var ok = (el.value === "" || /^[a-zA-Z']{1}$/.test(el.value));
+  document.getElementById("mini-error").innerHTML = ok ? "" : "Middle initial: one letter or blank";
+  return ok;
 }
-
-
 function validateLname() {
-    var el = document.getElementById("lname");
-    var ok = /^[a-zA-Z']{1,30}$/.test(el.value);
-    setErr("lname-error", ok ? "" : "Last name must be letters/apostrophes only (1–30).");
-    return ok;
+  var el = document.getElementById("lname");
+  var ok = /^[a-zA-Z']{1,30}$/.test(el.value);
+  document.getElementById("lname-error").innerHTML = ok ? "" : "Last name: letters/apostrophes only (1–30)";
+  return ok;
 }
 
 
 function validateDob() {
-    var dob = document.getElementById("dob");
-    if (!dob.value) {
-        setErr("dob-error", "Date can't be blank");
-        return false;
-    }
-    let date = new Date(dob.value);
-    let maxDate = new Date().setFullYear(new Date().getFullYear() - 120);
+  var dob = document.getElementById("dob");
+  if (!dob.value) {
+    document.getElementById("dob-error").innerHTML = "Date can't be blank";
+    return false;
+  }
+  var date = new Date(dob.value);
+  var maxDate = new Date().setFullYear(new Date().getFullYear() - 120);
 
-    if (date > new Date()) {
-        setErr("dob-error", "Date can't be in the future");
-        dob.value = "";
-        return false;
-    } else if (date < new Date(maxDate)) {
-        setErr("dob-error", "Date can't be more than 120 years ago");
-        dob.value = "";
-        return false;
-    } else {
-        setErr("dob-error", "");
-        return true;
-    }
+  if (date > new Date()) {
+    document.getElementById("dob-error").innerHTML = "Date can't be in the future";
+    dob.value = "";
+    return false;
+  } else if (date < new Date(maxDate)) {
+    document.getElementById("dob-error").innerHTML = "Date can't be more than 120 years ago";
+    dob.value = "";
+    return false;
+  } else {
+    document.getElementById("dob-error").innerHTML = "";
+    return true;
+  }
 }
 
 
 function validateSsn() {
-    const ssn = document.getElementById("ssn").value;
-    const ssnR = /^[0-9]{3}-?[0-9]{2}-?[0-9]{4}$/;
-    if (ssn && !ssnR.test(ssn)) {
-        setErr("ssn-error", "Please enter a valid SSN");
-        return false;
-    } else {
-        setErr("ssn-error", "");
-        return true;
-    }
+  var ssn = document.getElementById("ssn").value;
+  var ssnR = /^[0-9]{3}-?[0-9]{2}-?[0-9]{4}$/;
+  if (!ssnR.test(ssn)) {
+    document.getElementById("ssn-error").innerHTML = "Please enter a valid SSN";
+    return false;
+  } else {
+    document.getElementById("ssn-error").innerHTML = "";
+    return true;
+  }
 }
 
 
 function validateAddress1() {
-    var el = document.getElementById("address1");
-    var ok = el.value && el.value.length >= 2 && el.value.length <= 30;
-    setErr("address1-error", ok ? "" : "2 to 30 characters.");
-    return ok;
+  var el = document.getElementById("address1");
+  var ok = el.value.length >= 2 && el.value.length <= 30;
+  document.getElementById("address1-error").innerHTML = ok ? "" : "2 to 30 characters";
+  return ok;
 }
+
 
 function validateZcode() {
-    const zipInput = document.getElementById("zcode");
-    let zip = zipInput.value.replace(/[^\d-]/g, "");
+  var zipInput = document.getElementById("zcode");
+  var zip = zipInput.value.replace(/[^\d-]/g, "");
 
-    if (!zip) {
-        setErr("zcode-error", "Zip code can't be blank");
-        return false;
-    }
-
-    zip = zip.replace(/-/g, "");
-    if (zip.length > 5) {
-        zip = zip.slice(0, 5) + "-" + zip.slice(5, 9);
-    } else {
-        zip = zip.slice(0, 5);
-    }
-
-    zipInput.value = zip;
-    setErr("zcode-error", "");
-    return true;
+  if (!zip) {
+    document.getElementById("zcode-error").innerHTML = "Zip code can't be blank";
+    return false;
+  }
+  if (zip.length > 5) {
+    zip = zip.slice(0, 5) + "-" + zip.slice(5, 9);
+  } else {
+    zip = zip.slice(0, 5);
+  }
+  zipInput.value = zip;
+  document.getElementById("zcode-error").innerHTML = "";
+  return true;
 }
 
+
 function validateEmail() {
-    var el = document.getElementById("email");
-    var val = (el.value || "").trim();
-    var emailR = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,20})+$/;
-    if (val.length === 0) {
-        setErr("email-error", "Email can't be blank");
-        return false;
-    } else if (!emailR.test(val)) {
-        setErr("email-error", "Enter a valid email address");
-        return false;
-    } else {
-        setErr("email-error", "");
-        return true;
-    }
+  var val = document.getElementById("email").value.trim();
+  var emailR = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,20})+$/;
+  if (val.length === 0) {
+    document.getElementById("email-error").innerHTML = "Email can't be blank";
+    return false;
+  } else if (!emailR.test(val)) {
+    document.getElementById("email-error").innerHTML = "Enter a valid email address";
+    return false;
+  } else {
+    document.getElementById("email-error").innerHTML = "";
+    return true;
+  }
 }
 
 function validatePhone() {
-    var el = document.getElementById("phone");
-    var digits = el.value.replace(/\D/g, "");
-    if (digits.length === 0) {
-        setErr("phone-error", "Phone number can't be blank");
-        return false;
-    }
-    if (digits.length === 10) {
-        el.value = digits.slice(0,3) + "-" + digits.slice(3,6) + "-" + digits.slice(6);
-        setErr("phone-error", "");
-        return true;
-    } else {
-        setErr("phone-error", "Use 10 digits (000-000-0000)");
-        return false;
-    }
+  var el = document.getElementById("phone");
+  var digits = el.value.replace(/\D/g, "");
+  if (digits.length === 0) {
+    document.getElementById("phone-error").innerHTML = "Phone number can't be blank";
+    return false;
+  }
+  if (digits.length === 10) {
+    el.value = digits.slice(0,3) + "-" + digits.slice(3,6) + "-" + digits.slice(6);
+    document.getElementById("phone-error").innerHTML = "";
+    return true;
+  } else {
+    document.getElementById("phone-error").innerHTML = "Use 10 digits (000-000-0000)";
+    return false;
+  }
 }
 
 function validateUid() {
-    var el = document.getElementById("uid");
-    var uid = (el.value || "").toLowerCase();
-    el.value = uid;
+  uid = document.getElementById("uid").value.toLowerCase();
+  document.getElementById("uid").value = uid;
 
-    if (uid.length === 0) {
-        setErr("uid-error", "User ID can't be blank");
-        return false;
-    }
-    if (!isNaN(uid.charAt(0))) {
-        setErr("uid-error", "User ID can't start with a number");
-        return false;
-    }
-    let regex = /^[a-zA-Z0-9_-]+$/;
-    if (!regex.test(uid)) {
-        setErr("uid-error", "Only letters, numbers, underscores, and dashes");
-        return false;
-    } else if (uid.length < 5) {
-        setErr("uid-error", "User ID must be at least 5 characters");
-        return false;
-    } else if (uid.length > 30) {
-        setErr("uid-error", "User ID can't exceed 30 characters");
-        return false;
-    } else {
-        setErr("uid-error", "");
-        return true;
-    }
+  if (uid.length == 0) {
+    document.getElementById("uid-error").innerHTML = "User ID can't be blank";
+    return false;
+  }
+  if (!isNaN(uid.charAt(0))) {
+    document.getElementById("uid-error").innerHTML = "User ID can't start with a number";
+    return false;
+  }
+  var regex = /^[a-zA-Z0-9_-]+$/;
+  if (!regex.test(uid)) {
+    document.getElementById("uid-error").innerHTML = "User ID can only have letters, numbers, underscores, and dashes";
+    return false;
+  } else if (uid.length < 5) {
+    document.getElementById("uid-error").innerHTML = "User ID must be at least 5 characters";
+    return false;
+  } else if (uid.length > 30) {
+    document.getElementById("uid-error").innerHTML = "User ID can't exceed 30 characters";
+    return false;
+  } else {
+    document.getElementById("uid-error").innerHTML = "";
+    return true;
+  }
 }
 
 function validatePword() {
-    var uid = (document.getElementById("uid").value || "").toLowerCase();
-    var pword = document.getElementById("pword").value || "";
-    var msgs = [];
+  var uid = document.getElementById("uid").value.toLowerCase();
+  var pword = document.getElementById("pword").value;
+  var errorMessage = [];
 
-    if (pword.length < 8 || pword.length > 30) msgs.push("8–30 characters required");
-    if (!pword.match(/[a-z]/)) msgs.push("Enter at least one lowercase letter");
-    if (!pword.match(/[A-Z]/)) msgs.push("Enter at least one uppercase letter");
-    if (!pword.match(/[0-9]/)) msgs.push("Enter at least one number");
-    if (!pword.match(/[!\@#\$%&*\-_\\.+\(\)]/)) msgs.push("Enter at least one special character");
-    if (pword.includes('"')) msgs.push('Do not use double quotes (")');
-    if (uid && pword.toLowerCase().includes(uid)) msgs.push("Password can't contain user ID");
+  if (pword.length < 8 || pword.length > 30) errorMessage.push("8–30 characters required");
+  if (!pword.match(/[a-z]/)) errorMessage.push("Enter at least one lowercase letter");
+  if (!pword.match(/[A-Z]/)) errorMessage.push("Enter at least one uppercase letter");
+  if (!pword.match(/[0-9]/)) errorMessage.push("Enter at least one number");
+  if (!pword.match(/[!\@#\$%&*\-_\\.+\(\)]/)) errorMessage.push("Enter at least one special character");
+  if (pword.indexOf('"') > -1) errorMessage.push('Do not use double quotes (")');
+  if (uid && pword.toLowerCase().indexOf(uid) > -1) errorMessage.push("Password can't contain user ID");
 
-    document.getElementById("msg1").innerHTML = pword.match(/[a-z]/) ? "✓ has lowercase" : "• needs lowercase";
-    document.getElementById("msg2").innerHTML = pword.match(/[A-Z]/) ? "✓ has uppercase" : "• needs uppercase";
-    document.getElementById("msg3").innerHTML = pword.match(/[0-9]/) ? "✓ has number" : "• needs number";
-    document.getElementById("msg4").innerHTML = pword.match(/[!@#$%&*\-_.+()]/) ? "✓ has special" : "• needs special";
+  document.getElementById("msg1").innerHTML = /[a-z]/.test(pword) ? "✓ has lowercase" : "• needs lowercase";
+  document.getElementById("msg2").innerHTML = /[A-Z]/.test(pword) ? "✓ has uppercase" : "• needs uppercase";
+  document.getElementById("msg3").innerHTML = /[0-9]/.test(pword) ? "✓ has number" : "• needs number";
+  document.getElementById("msg4").innerHTML = /[!\@#\$%&*\-_\\.+\(\)]/.test(pword) ? "✓ has special" : "• needs special";
 
-    // show combined short message in pword1-error
-    setErr("pword1-error", msgs.length ? msgs.join('; ') : "");
-
-    return msgs.length === 0;
+  document.getElementById("pword1-error").innerHTML = errorMessage.join("; ");
+  return errorMessage.length === 0;
 }
 
 function confirmPword() {
-    var p1 = document.getElementById("pword").value || "";
-    var p2 = document.getElementById("con_pword").value || "";
-    if (p1 !== p2) {
-        setErr("pword2-error", "Passwords don't match");
-        return false;
-    } else {
-        setErr("pword2-error", "Passwords match");
-        return true;
-    }
+  pword1 = document.getElementById("pword").value;
+  pword2 = document.getElementById("con_pword").value;
+
+  if (pword1 !== pword2) {
+    document.getElementById("pword2-error").innerHTML = "Passwords don't match";
+    return false;
+  } else {
+    document.getElementById("pword2-error").innerHTML = "Passwords match";
+    return true;
+  }
 }
 
 function reviewInput() {
-    var formcontent = document.getElementById("signup");
-    if (!formcontent) {
-        console.warn('reviewInput: form with id "signup" not found');
-        return;
+  var formcontent = document.getElementById("signup");
+  var formoutput = "<table class='output'><th colspan='3'> Review Your Information:</th>";
+  for (var i = 0; i < formcontent.length; i++) {
+    if (formcontent.elements[i].value !== "") {
+      switch (formcontent.elements[i].type) {
+        case "checkbox":
+          if (formcontent.elements[i].checked) {
+            formoutput += "<tr><td align='right'>" + formcontent.elements[i].name + "</td><td>&#x2713;</td></tr>";
+          }
+          break;
+        case "radio":
+          if (formcontent.elements[i].checked) {
+            formoutput += "<tr><td align='right'>" + formcontent.elements[i].name + "</td><td>" + formcontent.elements[i].value + "</td></tr>";
+          }
+          break;
+        default:
+          formoutput += "<tr><td align='right'>" + formcontent.elements[i].name + "</td><td>" + formcontent.elements[i].value + "</td></tr>";
+      }
     }
-    var formoutput = "<table class='output'><th colspan='2'> Review Your Information:</th>";
-    for (let i = 0; i < formcontent.elements.length; i++) {
-        var el = formcontent.elements[i];
-        if (!el.name) continue;
-        // skip empty values and password fields
-        if (el.type === 'password') continue;
-        if ((el.type === 'checkbox' || el.type === 'radio')) {
-            if (el.checked) {
-                formoutput += `<tr><td align='right'>${el.name}</td><td>${el.value}</td></tr>`;
-            }
-            continue;
-        }
-        if (el.value !== "") {
-            formoutput += `<tr><td align='right'>${el.name}</td><td>${el.value}</td></tr>`;
-        }
-    }
-    formoutput += "</table>";
-    var out = document.getElementById("showInput");
-    if (out) out.innerHTML = formoutput;
+  }
+  formoutput += "</table>";
+  document.getElementById("showInput").innerHTML = formoutput;
 }
 
 function removeReview() {
-    var out = document.getElementById("showInput");
-    if (out) out.innerHTML = "";
+  document.getElementById("showInput").innerHTML = "";
 }
-
-// log loaded
-console.log('sv hw2 hw2.js loaded');
