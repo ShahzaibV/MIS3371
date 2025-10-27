@@ -1,0 +1,60 @@
+  /* 
+ Name: Shahzaib Vohra
+ File: 0000000-homework1.css
+ Date Created: 2025-09-26
+ Date Updated: 2025-09-26
+ Purpose: Style sheet for MIS 3371 HW1
+ */
+/* Error messages under fields (simple, consistent) */
+body {
+    background-color: rgba(208, 28, 100, 0.463);
+    font-family: "Source Sans Pro", 'Times New Roman', Times, serif;
+}
+
+h1 {
+    text-align: right;
+    font-family: "Source Sans Pro", 'Times New Roman', Times, serif;
+    font-weight: normal;
+    color: rgb(121, 30, 191);
+}
+#header img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* REQUIRED for HW2 */
+.error {
+  color: red;
+  font-size: 0.9rem;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+}
+
+.pword-message {
+  text-align: right;
+  font-family: Arial, sans-serif;
+  position: relative;
+  left: 0;
+  background: transparent;
+  padding: 10px;
+  border-radius: 8px;
+  color: #333;
+}
+
+#review { margin-top: 5px; }
+
+/* Make the REVIEW output obviously colored */
+table.output {
+  width: 500px;
+  background-color: #e6f7ff;  /* light blue so you can SEE it */
+  padding: 10px;
+  border-spacing: 2px;
+  border-radius: 12px;
+  color: #222;
+}
+tr.output, td.output { padding: 6px; }
+
+/* Layout so the form isn’t cut off */
+.container { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+table { width: 100%; }
+
