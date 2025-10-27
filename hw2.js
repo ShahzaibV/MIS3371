@@ -1,4 +1,3 @@
-
 window.addEventListener('DOMContentLoaded', function () {
     var dob = document.getElementById('dob');
     if (dob) {
@@ -188,4 +187,58 @@ function validatePword() {
 
     document.getElementById("msg1").innerHTML = pword.match(/[a-z]/) ? "✓ has lowercase" : "• needs lowercase";
     document.getElementById("msg2").innerHTML = pword.match(/[A-Z]/) ? "✓ has uppercase" : "• needs uppercase";
-    document.getElementById("msg3").innerHTML = pwor
+    document.getElementById("msg3").innerHTML = pword.match(/[0-9]/) ? "✓ has number" : "• needs number";
+    document.getElementById("msg4").innerHTML = pword.match(/[!@#$%&*\-_.+()]/) ? "✓ has special" : "• needs special";
+
+    // show combined short message in pword1-error
+    setErr("pword1-error", msgs.length ? msgs.join('; ') : "");
+
+    return msgs.length === 0;
+}
+
+function confirmPword() {
+    var p1 = document.getElementById("pword").value || "";
+    var p2 = document.getElementById("con_pword").value || "";
+    if (p1 !== p2) {
+        setErr("pword2-error", "Passwords don't match");
+        return false;
+    } else {
+        setErr("pword2-error", "Passwords match");
+        return true;
+    }
+}
+
+function reviewInput() {
+    var formcontent = document.getElementById("signup");
+    if (!formcontent) {
+        console.warn('reviewInput: form with id "signup" not found');
+        return;
+    }
+    var formoutput = "<table class='output'><th colspan='2'> Review Your Information:</th>";
+    for (let i = 0; i < formcontent.elements.length; i++) {
+        var el = formcontent.elements[i];
+        if (!el.name) continue;
+        // skip empty values and password fields
+        if (el.type === 'password') continue;
+        if ((el.type === 'checkbox' || el.type === 'radio')) {
+            if (el.checked) {
+                formoutput += `<tr><td align='right'>${el.name}</td><td>${el.value}</td></tr>`;
+            }
+            continue;
+        }
+        if (el.value !== "") {
+            formoutput += `<tr><td align='right'>${el.name}</td><td>${el.value}</td></tr>`;
+        }
+    }
+    formoutput += "</table>";
+    var out = document.getElementById("showInput");
+    if (out) out.innerHTML = formoutput;
+}
+
+function removeReview() {
+    var out = document.getElementById("showInput");
+    if (out) out.innerHTML = "";
+}
+
+// log loaded
+console.log('sv hw2 hw2.js loaded');
